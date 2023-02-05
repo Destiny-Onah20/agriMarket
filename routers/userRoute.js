@@ -11,8 +11,8 @@ userRoute.route("/verify/:id").post(verifyU);
 userRoute.route("/forgot").post(forgotPassWrd);
 userRoute.route("/changePaswrd/:userId/:token").post(changePassWrd);
 userRoute.route("/admin/:userId", isSuperAdmin).get(allUsers);
-userRoute.route("/admin/:userId", realAdmin).patch(updateAdmin)
-userRoute.route("/admin/:userId", realAdmin).delete(delAdmin)
+userRoute.route("/updAdmin/:userId", realAdmin).patch(updateAdmin)
+userRoute.route("/delAdmin/:userId", realAdmin).delete(delAdmin)
 
 
 

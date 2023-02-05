@@ -8,7 +8,7 @@ const productRoutes = express.Router();
 productRoutes.route("/product").get(allProducts);
 productRoutes.route("/product/:userId/:productId").get(singleProduct);
 productRoutes.route("/product/:userId", realAdmin).post(postProduct);
-productRoutes.route("/product/:userId/:productId", realAdmin).patch(updtProduct);
-productRoutes.route("/product/:userId/:productId", realAdmin).delete(delProducts);
+productRoutes.route("/updProduct/:userId/:productId", realAdmin).patch(updtProduct);
+productRoutes.route("/delProduct/:userId/:productId", realAdmin).delete(delProducts);
 
 module.exports = productRoutes;
