@@ -276,8 +276,7 @@ exports.updateAdmin = async(req,res)=>{
 exports.delAdmin = async(req,res)=>{
     try {
         const userId = req.body.userId;
-        const user = await modelName.findById(userId)
-        await cloudinary.uploader.destroy(user.cloudId);
+        const user = await modelName.findById(userId);
         await modelName.findByIdAndDelete(userId, user);
         res.status(200).json({
             message: "Deleted successfully..."

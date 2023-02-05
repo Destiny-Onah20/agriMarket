@@ -30,7 +30,6 @@ exports.updtProduct = async(req,res)=>{
     try {
         const productId = req.params.productId;
         const product = await modelName.findById(productId);
-        await cloudinary.uploader.destroy(product.cloudId)
         const cloudResult = await cloudinary.uploader.upload(req.files.image.tempFilePath);
         const { productName , decs, price, categories, quantity } = req.body;
         const data = {
@@ -48,7 +47,7 @@ exports.updtProduct = async(req,res)=>{
         });
     } catch (error) {
         res.status(400).json({
-            message: err.message
+            message: error.message
         })
     }
 };
@@ -71,7 +70,6 @@ exports.delProducts = async(req,res)=>{
     try {
         const productId = req.params.productId;
         const product = await modelName.findById(productId);
-        await cloudinary.uploader.destroy(product.cloudId)
         const remove = await modelName.findByIdAndDelete(product);
         res.status(200).json({
             message: "Successfully deleted..."
