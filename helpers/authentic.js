@@ -3,26 +3,26 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config({path: "./config/config.env"});
 
-const whichUser = async(req, res, next)=>{
+const checkUser = async(req,res,next)=>{
     try {
         const userId = req.params.userId;
-        const checkUser = await modelName.findById(userId);
-        if(!checkUser){
+        const user = await modelName.findById(userId);
+        const authToken = user.token;
+        if(!authToken){
             res.status(400).json({
-                message: "You are not registered.."
+                message: "Not authorized.."
             })
         }else{
-            const authToken = checkUser.token;
-            await jwt.verify(authToken, process.env.JWTOKEN, (error, payload)=>{
-                if(error){
+            jwt.verify(authToken, process.env.JWTTOKEN, (err, payLoad)=>{
+                if(err){
                     res.status(400).json({
-                        message: error.message
-                    }) 
+                        message: err.message
+                    })
                 }else{
-                    req.user = payload;
-                    next()
+                    req.user = payLoad;
+                    next();
                 }
-            } );
+            } )
         }
     } catch (error) {
         res.status(400).json({
@@ -33,7 +33,7 @@ const whichUser = async(req, res, next)=>{
 
 
 exports.isSuperAdmin = async(req,res,next)=>{
-    whichUser(req,res, ()=>{
+    checkUser(req,res, ()=>{
         if(req.user.superAdmin){
             next()
         }else{
@@ -44,13 +44,25 @@ exports.isSuperAdmin = async(req,res,next)=>{
     })
 };
 
-exports.isAdmin = async(req,res,next)=>{
-    whichUser(req,res, ()=>{
+exports.realAdmin = async(req,res,next)=>{
+    checkUser(req,res, ()=>{
         if(req.user.isAdmin){
             next()
         }else{
             res.status(400).json({
                 message: "Sorry you are not authorized to perform this.. "
+            })
+        }
+    })
+};
+
+exports.isUser = (req,res,next)=>{
+    checkUser(req,res,()=>{
+        if(!req.user.isAdmin){
+            next()
+        }else{
+            res.status(400).json({
+                message: "sorry you are not authorized"
             })
         }
     })
