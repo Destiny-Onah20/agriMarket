@@ -48,46 +48,6 @@ exports.adminSignUp = async(req,res)=>{
     }
 };
 
-exports.signUpUser = async(req,res)=>{
-    try {
-        const {firstName,lastName, email, phoneNumber,location, password} = req.body;
-        const saltPwd = await bcrypt.genSalt(5);
-        const hassPwd = await bcrypt.hash(password, saltPwd);
-        const createData = {
-            firstName,
-            lastName,
-            email,
-            phoneNumber,
-            location,
-            password: hassPwd
-        };
-            const createUser = new modelName(createData);
-            const genToken = await jwt.sign({
-                id: createUser._id,
-                isAdmin: createUser.isAdmin
-            },process.env.JWTTOKEN, {expiresIn: "1h"});
-
-            createUser.token = genToken;
-            await createUser.save();
-
-            const verifyUser = `${req.protocol}://${req.get("host")}/api/verifyUser/${createUser._id}`;
-            const message = `Kindly clickon this link ${verifyUser} to verify your account`;
-            mailSender({
-                email: createUser.email,
-                subject: "Kindly verify your account",
-                message
-            })
-
-            res.status(201).json({
-                message: "created Successfully...",
-                data: createUser
-            })
-    } catch (error) {
-        res.status(400).json({
-            message: error.message
-        })
-    }
-};
 
 
 exports.verifyU = async(req,res)=>{
@@ -217,11 +177,21 @@ exports.allUsers = async(req,res)=>{
 
 exports.allAdmin = async(req,res)=>{
     try {
-        const all = await modelName.find((admin, data)=>{
-            if(admin[0].isAdmin === true){
-                return data
-            }
+        const all = await modelName.find().where({"isAdmin": true});
+        res.status(200).json({
+            message: "All users " + all.length,
+            data: all
         });
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        })
+    }
+};
+
+exports.allUser = async(req,res)=>{
+    try {
+        const all = await modelName.find().where({"isAdmin": false});
         res.status(200).json({
             message: "All users " + all.length,
             data: all
@@ -277,7 +247,7 @@ exports.delAdmin = async(req,res)=>{
     try {
         const userId = req.body.userId;
         const user = await modelName.findById(userId);
-        await modelName.findByIdAndDelete(userId, user);
+        await modelName.deleteOne(user);
         res.status(200).json({
             message: "Deleted successfully..."
         })

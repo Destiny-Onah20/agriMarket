@@ -3,7 +3,8 @@ const fileUpload = require("express-fileupload");
 const productRoutes = require("./routers/productRoutes");
 const userRoute = require("./routers/userRoute");
 const realRoute = require("./routers/realUser");
-const cors = require("cors")
+const cors = require("cors");
+const superRoutes = require("./routers/superAdmin");
 
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(fileUpload({
 app.use("/api", userRoute)
 app.use("/api", realRoute)
 app.use("/api", productRoutes)
+app.use("/api", superRoutes)
 
 app.get("/", (req,res)=>{
     res.send("Welcome to agri-Market API")

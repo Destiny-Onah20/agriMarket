@@ -1,24 +1,26 @@
 const modelName = require("../models/products");
 const cloudinary = require("../helpers/cloudinary");
 
+
 exports.postProduct = async(req,res)=>{
     try {
-        const cloudResult = await cloudinary.uploader.upload(req.files.image.tempFilePath);
-        const { productName , decs, price, categories, quantity } = req.body;
-        const data = {
-            productName,
-            decs,
-            price,
-            categories,
-            image: cloudResult.secure_url,
-            cloudId : cloudResult.public_id,
-            quantity
-        };
-        const createNew = await modelName.create(data)
-        res.status(201).json({
-            data: createNew
-        })
-    } catch (error) {
+                const cloudResult = await cloudinary.uploader.upload(req.files.image.tempFilePath);
+                const { productName , decs, price, categories, quantity } = req.body;
+                const data = {
+                    productName,
+                    decs,
+                    price,
+                    categories,
+                    image: cloudResult.secure_url,
+                    cloudId : cloudResult.public_id,
+                    quantity
+                };
+                const createNew = await modelName.create(data)
+                res.status(201).json({
+                    data: createNew
+                    // data: req.user
+                })
+    } catch (err) {
         res.status(400).json({
             message: err.message
         })

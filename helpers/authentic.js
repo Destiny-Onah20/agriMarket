@@ -7,13 +7,19 @@ const checkUser = async(req,res,next)=>{
     try {
         const userId = req.params.userId;
         const user = await modelName.findById(userId);
+        if(!user){
+            res.status(400).json({
+                message: "You are Not authorized.."
+            })
+        }else{
         const authToken = user.token;
+        console.log(authToken)
         if(!authToken){
             res.status(400).json({
                 message: "Not authorized.."
             })
         }else{
-            jwt.verify(authToken, process.env.JWTTOKEN, (err, payLoad)=>{
+            jwt.verify(authToken, process.env.JWTOKEN, (err, payLoad)=>{
                 if(err){
                     res.status(400).json({
                         message: err.message
@@ -24,6 +30,7 @@ const checkUser = async(req,res,next)=>{
                 }
             } )
         }
+    }
     } catch (error) {
         res.status(400).json({
             message: error.message
@@ -33,9 +40,10 @@ const checkUser = async(req,res,next)=>{
 
 
 exports.isSuperAdmin = async(req,res,next)=>{
+    console.log(req.user.superAdmin)
     checkUser(req,res, ()=>{
         if(req.user.superAdmin){
-            next()
+        next()
         }else{
             res.status(400).json({
                 message: "Sorry you are not authorized to perform this.. "
@@ -47,7 +55,7 @@ exports.isSuperAdmin = async(req,res,next)=>{
 exports.realAdmin = async(req,res,next)=>{
     checkUser(req,res, ()=>{
         if(req.user.isAdmin){
-            next()
+        next()
         }else{
             res.status(400).json({
                 message: "Sorry you are not authorized to perform this.. "
@@ -57,6 +65,7 @@ exports.realAdmin = async(req,res,next)=>{
 };
 
 exports.isUser = (req,res,next)=>{
+
     checkUser(req,res,()=>{
         if(!req.user.isAdmin){
             next()

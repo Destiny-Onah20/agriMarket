@@ -17,6 +17,6 @@ mongoose.connect(Db, {
         console.log(`Listening to port : ${port}`)
     })
 }).catch((error)=>{
-    error.message
+    return error.message
 })
 

@@ -28,15 +28,15 @@ const userModel = new mongoose.Schema({
         require: [true, "This place cannot be empty"]
     },
     isAdmin: {
-        type: String,
+        type: Boolean,
         default: false
     },
      superAdmin: {
-        type: String,
+        type: Boolean,
         default: false
     },
     verify: {
-        type: String,
+        type: Boolean,
         default: false
     },
     token: {
