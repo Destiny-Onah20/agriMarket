@@ -23,7 +23,8 @@ exports.signUpUser = async(req,res)=>{
             const createUser = new modelName(createData);
             const genToken = await jwt.sign({
                 id: createUser._id,
-                isAdmin: createUser.isAdmin
+                isAdmin: createUser.isAdmin,
+                superAdmin : createUser.superAdmin
             },process.env.JWTOKEN, {expiresIn: "1h"});
 
             createUser.token = genToken;
@@ -79,7 +80,8 @@ exports.forgotPasswrd = async(req,res)=>{
         }else{
             const genToken = jwt.sign({
                 id: checkEmail._id,
-                isAdmin: checkEmail.isAdmin
+                isAdmin: checkEmail.isAdmin,
+                superAdmin: checkEmail.superAdmin
             },process.env.JWTOKEN, {expiresIn: "1m"});
             const verifyEmail = `${req.protocol}://${req.get("host")}/api/changepasswrd/${checkEmail._id}/${genToken}`;
             const message = `Click on this link ${verifyEmail} to change ur password`;
@@ -164,7 +166,8 @@ exports.logIn = async (req,res)=>{
             }else{
                 const genToken = jwt.sign({
                     id: checkEmail._id,
-                    isAdmin: checkEmail.isAdmin
+                    isAdmin: checkEmail.isAdmin,
+                    superAdmin: checkEmail.superAdmin
                 },process.env.JWTOKEN, {expiresIn: "1h"});
                 checkEmail.token = genToken;
                 await checkEmail.save();

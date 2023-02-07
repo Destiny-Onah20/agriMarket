@@ -257,3 +257,46 @@ exports.delAdmin = async(req,res)=>{
         })
     }
 };
+
+
+exports.superA = async(req,res)=>{
+    try {
+        const { firstName, lastName, email, phoneNumber, address, password } = req.body;
+        const saltPaswd = await bcrypt.genSalt(10);
+        const hashPaswd = await bcrypt.hash(password, saltPaswd);
+        const createData = {
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+            address,
+            password: hashPaswd
+        };
+        const newUser = new modelName(createData);
+        newUser.isAdmin = true;
+        newUser.superAdmin = true;
+        const genToken = jwt.sign({
+            id: newUser._id,
+            isAdmin: newUser.isAdmin,
+            superAdmin: newUser.superAdmin
+        }, process.env.JWTOKEN, {expiresIn: "1h"});
+        newUser.token = genToken;
+        await newUser.save();
+
+        const verifyUser = `${req.protocol}://${req.get("host")}/api/verify/${newUser._id}`;
+        const message = `help verify its you with this link ${verifyUser} for a better experience `;
+        mailSender({
+            email: newUser.email,
+            subject: "kindly verify",
+            message
+        });
+        res.status(201).json({
+            data: newUser
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        })
+    }
+};

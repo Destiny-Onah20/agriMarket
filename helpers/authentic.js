@@ -13,7 +13,6 @@ const checkUser = async(req,res,next)=>{
             })
         }else{
         const authToken = user.token;
-        console.log(authToken)
         if(!authToken){
             res.status(400).json({
                 message: "Not authorized.."
@@ -40,7 +39,6 @@ const checkUser = async(req,res,next)=>{
 
 
 exports.isSuperAdmin = async(req,res,next)=>{
-    console.log(req.user.superAdmin)
     checkUser(req,res, ()=>{
         if(req.user.superAdmin){
         next()
