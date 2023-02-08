@@ -26,22 +26,26 @@ exports.signUpUser = async(req,res)=>{
                 isAdmin: createUser.isAdmin,
                 superAdmin : createUser.superAdmin
             },process.env.JWTOKEN, {expiresIn: "1h"});
-
             createUser.token = genToken;
+            const checker = await modelName.findOne({email})
+            if(checker){
+            res.status(400).json({
+                message: "Email already taken..."
+            })
+        }else{
             await createUser.save();
 
-            const verifyUser = `${req.protocol}://${req.get("host")}/api/verifyUser/${createUser._id}`;
-            const message = `help verify its you with this link ${verifyUser} for a better experience`;
-            mailSender({
-                email: createUser.email,
-                subject: "verify your account",
-                message
-            })
-
-            res.status(201).json({
-                message: "created Successfully...",
-                data: createUser
-            })
+        const verifyUser = `${req.protocol}://${req.get("host")}/api/verify/${createUser._id}`;
+        const message = `help verify its you with this link ${verifyUser} for a better experience `;
+        mailSender({
+            email: createUser.email,
+            subject: "kindly verify",
+            message
+        });
+        res.status(201).json({
+            data: createUser
+        })
+    }
     } catch (error) {
         res.status(400).json({
             message: error.message

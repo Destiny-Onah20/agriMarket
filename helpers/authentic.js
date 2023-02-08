@@ -52,7 +52,7 @@ exports.isSuperAdmin = async(req,res,next)=>{
 
 exports.realAdmin = async(req,res,next)=>{
     checkUser(req,res, ()=>{
-        if(req.user.isAdmin){
+        if(req.user.isAdmin){ 
         next()
         }else{
             res.status(400).json({

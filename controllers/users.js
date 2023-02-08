@@ -28,7 +28,13 @@ exports.adminSignUp = async(req,res)=>{
             superAdmin: newUser.superAdmin
         }, process.env.JWTOKEN, {expiresIn: "1h"});
         newUser.token = genToken;
-        await newUser.save();
+        const checker = await modelName.findOne({email})
+        if(checker){
+            res.status(400).json({
+                message: "Email already taken..."
+            })
+        }else{
+            await newUser.save();
 
         const verifyUser = `${req.protocol}://${req.get("host")}/api/verify/${newUser._id}`;
         const message = `help verify its you with this link ${verifyUser} for a better experience `;
@@ -41,6 +47,7 @@ exports.adminSignUp = async(req,res)=>{
             data: newUser
         })
 
+        }
     } catch (error) {
         res.status(400).json({
             message: error.message

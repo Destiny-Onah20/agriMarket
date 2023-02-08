@@ -18,7 +18,6 @@ const userModel = new mongoose.Schema({
         type: String,
         min : 10,
         require: [true, "This place cannot be empty"],
-        unique: true
     },
     address: {
         type: String,
