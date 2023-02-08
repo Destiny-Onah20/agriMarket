@@ -196,7 +196,7 @@ exports.delUser = async(req,res)=>{
     try {
         const userId = req.body.userId;
         const user = await modelName.findById(userId);
-        await modelName.findByIdAndDelete(userId, user);
+        await modelName.deleteOne(userId, user);
         res.status(200).json({
             message: "Deleted successfully..."
         })
@@ -206,3 +206,24 @@ exports.delUser = async(req,res)=>{
         })
     }
 };
+
+exports.logOut = async(req,res)=>{
+    try {
+        const userLog = await modelName.findById(req.params.userId);
+        const genToken = jwt.sign({
+             id: userLog._id,
+            isAdmin: userLog.isAdmin,
+            superAdmin: userLog.superAdmin
+        },process.env.JWTDESTROY, {expiresIn: "1h"});
+        userLog.token = genToken;
+        await userLog.save();
+        res.status(200).json({
+            message: "Successfully logged out..."
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        })
+    }
+}
