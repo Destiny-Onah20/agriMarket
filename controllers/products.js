@@ -97,3 +97,32 @@ exports.singleProduct = async(req,res)=>{
         })
     }
 };
+
+
+exports.categoriesForPoultry = async(req,res)=>{
+    try {
+        const poltry = await modelName.find().where({"categories": "poultry"})
+        res.status(200).json({
+            message: "Heres all the poultry products.. " +  poltry.length,
+            data: poltry
+        })
+    } catch (error) { 
+        res.status(400).json({
+            message: error.message
+        })
+    }
+}
+
+exports.categoriesForFishery = async(req,res)=>{
+    try {
+        const fishery = await modelName.find().where({"categories": "fishery"})
+        res.status(200).json({
+            message: "Heres all the fishery products.. " +  fishery.length,
+            data: fishery
+        })
+    } catch (error) { 
+        res.status(400).json({
+            message: error.message
+        })
+    }
+}

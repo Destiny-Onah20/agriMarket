@@ -6,7 +6,7 @@ const { isSuperAdmin } = require("../helpers/authentic");
 const superRoutes = express.Router();
 
 superRoutes.route("/super").post(superA);
-superRoutes.route("/allusers/:userId" ).get(isSuperAdmin , allUsers);
+superRoutes.route("/allusers/:userId").get(isSuperAdmin, allUsers);
 superRoutes.route("/alladmin/:userId").get(isSuperAdmin, allAdmin);
 superRoutes.route("/alluser/:userId").get(isSuperAdmin, allUser);
 superRoutes.route("/deluser/:userId/:userId").delete(isSuperAdmin, delAdmin);
