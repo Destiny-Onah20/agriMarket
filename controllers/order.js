@@ -60,8 +60,9 @@ exports.deliver = async(req,res)=>{
     try {
         const orderId = req.params.orderId;
         const order = await modelName.findById(orderId);
-        order.delivered = true;
-        await order.save();
+        await modelName.findByIdAndUpdate(order, {
+            delivered: true
+        },{new: true})
         res.status(200).json({
             message: "Deleveried delevered successfully.."
         }) 
