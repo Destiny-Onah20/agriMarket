@@ -23,7 +23,7 @@ const orderSchema = new mongoose.Schema({
 
     },
     phoneNumber: {
-        type: Number,
+        type: String,
         require: [true, "This place cannot be empty"],
     },
     product: [

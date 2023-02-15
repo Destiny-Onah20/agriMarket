@@ -60,7 +60,7 @@ exports.deliver = async(req,res)=>{
     try {
         const orderId = req.params.orderId;
         const order = await modelName.findById(orderId);
-        await modelName.findByIdAndUpdate(order, {
+        await modelName.updateOne(order, {
             delivered: true
         },{new: true})
         res.status(200).json({
