@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
         type: String,
     },
     quantity:{
-        type: Number,
+        type: String,
     }
 },{
     timestamps: true

@@ -34,6 +34,7 @@ exports.updtProduct = async(req,res)=>{
         const product = await modelName.findById(productId);
         const cloudResult = await cloudinary.uploader.upload(req.files.image.tempFilePath);
         const { productName , decs, price, categories, quantity } = req.body;
+        
         const data = {
             productName,
             decs,

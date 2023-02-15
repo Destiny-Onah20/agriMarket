@@ -26,7 +26,7 @@ exports.adminSignUp = async(req,res)=>{
             id: newUser._id,
             isAdmin: newUser.isAdmin,
             superAdmin: newUser.superAdmin
-        }, process.env.JWTOKEN, {expiresIn: "1h"});
+        }, process.env.JWTOKEN, {expiresIn: "1d"});
         newUser.token = genToken;
         const checker = await modelName.findOne({email})
         if(checker){
@@ -92,7 +92,7 @@ exports.logIn = async(req,res)=>{
                 id: checkEmail._id,
                 isAdmin: checkEmail.isAdmin,
                 superAdmin: checkEmail.superAdmin
-            }, process.env.JWTOKEN, {expiresIn: "1h"});
+            }, process.env.JWTOKEN, {expiresIn: "1d"});
             checkEmail.token = genToken;
             await checkEmail.save();
             const message = `Welcome back to agri-Market ${checkEmail.firstName} for a better experience `;
@@ -286,7 +286,7 @@ exports.superA = async(req,res)=>{
             id: newUser._id,
             isAdmin: newUser.isAdmin,
             superAdmin: newUser.superAdmin
-        }, process.env.JWTOKEN, {expiresIn: "1h"});
+        }, process.env.JWTOKEN, {expiresIn: "1d"});
         newUser.token = genToken;
         await newUser.save();
 

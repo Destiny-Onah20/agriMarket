@@ -25,7 +25,7 @@ exports.signUpUser = async(req,res)=>{
                 id: createUser._id,
                 isAdmin: createUser.isAdmin,
                 superAdmin : createUser.superAdmin
-            },process.env.JWTOKEN, {expiresIn: "1h"});
+            },process.env.JWTOKEN, {expiresIn: "1d"});
             createUser.token = genToken;
             const checker = await modelName.findOne({email})
             if(checker){

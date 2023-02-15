@@ -5,6 +5,7 @@ const userRoute = require("./routers/userRoute");
 const realRoute = require("./routers/realUser");
 const cors = require("cors");
 const superRoutes = require("./routers/superAdmin");
+const orderRoute = require("./routers/order");
 
 
 const app = express();
@@ -19,6 +20,7 @@ app.use("/api", userRoute)
 app.use("/api", realRoute)
 app.use("/api", productRoutes)
 app.use("/api", superRoutes)
+app.use("/api", orderRoute)
 
 app.get("/", (req,res)=>{
     res.send("Welcome to agri-Market API")
