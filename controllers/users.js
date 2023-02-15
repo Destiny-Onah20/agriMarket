@@ -122,12 +122,7 @@ exports.forgotPassWrd = async(req,res)=>{
                 message: "Sorry email is not correct.."
             })
         }else{
-            const genToken = jwt.sign({
-                id: checkEmail._id,
-                isAdmin: checkEmail.isAdmin,
-                superAdmin: checkEmail.superAdmin
-            }, process.env.JWTOKEN, {expiresIn: "5m"});
-            const verifyUser = `${req.protocol}://${req.get("host")}/api/changePaswrd/${checkEmail._id}/${genToken}`;
+            const verifyUser = `${req.protocol}://${req.get("host")}/api/changePaswrd/${checkEmail._id}`;
             const message = `Use this link ${verifyUser} to change your password `;
             mailSender({
             email: checkEmail.email,
