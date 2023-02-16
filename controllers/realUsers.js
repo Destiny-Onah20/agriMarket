@@ -87,7 +87,7 @@ exports.forgotPasswrd = async(req,res)=>{
                 isAdmin: checkEmail.isAdmin,
                 superAdmin: checkEmail.superAdmin
             },process.env.JWTOKEN, {expiresIn: "1m"});
-            const verifyEmail = `${req.protocol}://${req.get("host")}/api/changepasswrd/${checkEmail._id}/${genToken}`;
+            const verifyEmail = `https://agri-market.vercel.app/Resetpassword/${checkEmail._id}`;
             const message = `Click on this link ${verifyEmail} to change ur password`;
             mailSender({
                 email: checkEmail.email,
