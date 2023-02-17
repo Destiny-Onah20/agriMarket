@@ -26,9 +26,10 @@ const orderSchema = new mongoose.Schema({
         type: String,
         require: [true, "This place cannot be empty"],
     },
-    product: [
-
-    ],
+    product: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "products"
+    }],
     delivery:{
         type: Boolean,
         default: false

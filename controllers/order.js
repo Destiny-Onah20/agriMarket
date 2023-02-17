@@ -1,4 +1,5 @@
 const modelName = require("../models/order");
+const productModel = require("../models/products")
 
 exports.placeOrder = async(req,res)=>{
     try {
@@ -72,3 +73,4 @@ exports.deliver = async(req,res)=>{
         })
     }
 };
+

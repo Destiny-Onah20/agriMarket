@@ -207,7 +207,17 @@ exports.allUser = async(req,res)=>{
 
 exports.singleUser = async(req,res)=>{
     try {
-        const id = req.params.id;
+        const userId = req.params.userId;
+        const single = await modelName.findById(userId);
+        if(single.length === 0){
+            res.status(404).json({
+                message: `User with this id: ${userId} not found...`
+            })
+        }else{
+            res.json({
+                data: single
+            })
+        }
 
     } catch (error) {
         res.status(400).json({

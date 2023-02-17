@@ -87,7 +87,7 @@ exports.delProducts = async(req,res)=>{
 exports.singleProduct = async(req,res)=>{
     try {
         const productId = req.params.productId;
-        const product = await modelName.findById(productId);
+        const product = await modelName.findById(productId).populate("review");
         res.status(200).json({
             message : "Here's the product..",
             data: product

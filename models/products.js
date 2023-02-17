@@ -25,7 +25,15 @@ const productSchema = new mongoose.Schema({
     },
     quantity:{
         type: String,
-    }
+    },
+    order: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "order"
+    }],
+    review: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "review"
+    }]
 },{
     timestamps: true
 });
