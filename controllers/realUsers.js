@@ -35,7 +35,7 @@ exports.signUpUser = async(req,res)=>{
         }else{
             await createUser.save();
 
-        const verifyUser = `${req.protocol}://${req.get("host")}/api/verify/${createUser._id}`;
+        const verifyUser = `https://agri-market.vercel.app/api/#/verify/${newUser._id}`;
         const message = `help verify its you with this link ${verifyUser} for a better experience `;
         mailSender({
             email: createUser.email,
