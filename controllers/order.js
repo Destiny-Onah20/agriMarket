@@ -1,10 +1,19 @@
 const modelName = require("../models/order");
 const productModel = require("../models/products")
+const mailSender = require("../helpers/email");
+
 
 exports.placeOrder = async(req,res)=>{
     try {
         const createData = { firstName, lastName, email, address, phoneNumber } = req.body;
         const orderList = await modelName.create(createData);
+        const delivered = `${req.protocol}://${req.get("host")}/api/delivered/${orderList._id}`;
+        const message = `There valued customer your order with the this Id ${orderList._id} has been placed and will be delivered to you in your above location: ${orderList.address}, please click on this link ${delivered} if you successfully received the goods THANKS from @agri-market`
+        mailSender({
+            email: orderList.email,
+            subject: "complete order placement",
+            message
+        });
         res.status(201).json({
             message: "Heres the details for the person who placed an other...",
             data: orderList
