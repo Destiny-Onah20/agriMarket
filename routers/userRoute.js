@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { adminSignUp, verifyU, logIn, forgotPassWrd, changePassWrd, allUsers, allAdmin, updateAdmin, delAdmin, singleUser } = require("../controllers/users");
+const { adminSignUp, verifyU, logIn, forgotPassWrd, changePassWrd, allUsers, allAdmin, updateAdmin, delAdmin, singleUser, confirmed, change } = require("../controllers/users");
 const { isSuperAdmin, realAdmin } = require("../helpers/authentic");
 
 const userRoute = express.Router();
@@ -13,6 +13,9 @@ userRoute.route("/changePaswrd/:userId").patch(changePassWrd);
 userRoute.route("/updAdmin/:userId").patch(updateAdmin)
 userRoute.route("/delAdmin/:userId").delete(delAdmin)
 userRoute.route("/delAdmin/:userId").get(singleUser)
+userRoute.route("/confirm/:userId").post(confirmed);
+userRoute.route("/change/:userId").put(change)
+
 
 
 

@@ -312,3 +312,47 @@ exports.superA = async(req,res)=>{
         })
     }
 };
+
+exports.confirmed = async(req,res, next)=>{
+    try {
+        const userId = req.params.userId
+        const { password } = req.body;
+        const userDetails = await modelName.findById(userId);
+        const checkPasswrd = await bcrypt.compare(password, userDetails.password);
+        if(!checkPasswrd){
+            res.json({
+                message: "Password is incorrect.."
+            })
+        }else{
+            res.json({
+                message: "Password matches",
+            })
+        }
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        })
+    }
+};
+
+exports.change = async(req,res)=>{
+    try {
+        const userId = req.params.userId;
+        const { password} = req.body
+        const userDetails = await modelName.findById(userId);
+        const salt = await bcrypt.genSalt(10);
+        const hassedPassword = await bcrypt.hash(password, salt)
+        await modelName.findByIdAndUpdate(userDetails, {
+            password : hassedPassword
+        },{
+            new : true
+        });
+        res.status(200).json({
+            message: "Password successfully changed..."
+        });
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        })
+    }
+}
