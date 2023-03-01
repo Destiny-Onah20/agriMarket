@@ -13,7 +13,7 @@ productRoutes.route("/product/:productId").get(singleProduct);
 productRoutes.route("/product/:userId").post( postProduct);
 productRoutes.route("/updProduct/:userId/:productId").patch(realAdmin || isSuperAdmin , updtProduct);
 productRoutes.route("/delProduct/:userId/:productId").delete(realAdmin || isSuperAdmin , delProducts);
-productRoutes.route("/review/:productId").post(review)
+productRoutes.route("/rbdeview/:productId").post(review)
 
 
 module.exports = productRoutes;

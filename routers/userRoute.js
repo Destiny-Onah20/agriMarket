@@ -14,7 +14,7 @@ userRoute.route("/updAdmin/:userId").patch(updateAdmin)
 userRoute.route("/delAdmin/:userId").delete(delAdmin)
 userRoute.route("/delAdmin/:userId").get(singleUser)
 userRoute.route("/confirm/:userId").post(confirmed);
-userRoute.route("/change/:userId").put(change)
+userRoute.route("/change/:userId").put(change) 
 
 
 

@@ -122,7 +122,7 @@ exports.forgotPassWrd = async(req,res)=>{
                 message: "Sorry email is not correct.."
             })
         }else{
-            const verifyUser = `https://agri-market.vercel.app/Resetpassword/${checkEmail._id}`;
+            const verifyUser = `https://agri-market.vercel.app/#/Resetpassword/${checkEmail._id}`;
             const message = `Use this link ${verifyUser} to change your password `;
             mailSender({
             email: checkEmail.email,
@@ -325,7 +325,7 @@ exports.confirmed = async(req,res, next)=>{
             })
         }else{
             res.json({
-                message: "Password matches",
+                message: "Password matches"
             })
         }
     } catch (error) {
