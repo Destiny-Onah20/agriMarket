@@ -26,14 +26,10 @@ const productSchema = new mongoose.Schema({
     quantity:{
         type: String,
     },
-    order: [{
+    user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "order"
-    }],
-    review: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "review"
-    }]
+        ref: "allusers"
+    },
 },{
     timestamps: true
 });

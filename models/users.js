@@ -46,7 +46,11 @@ const userModel = new mongoose.Schema({
     },
     cloudId: {
         type: String,
-    }
+    },
+    products :[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "products"
+    }]
 },{
     timestamps: true
 });

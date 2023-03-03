@@ -12,7 +12,7 @@ userRoute.route("/forgot").post(forgotPassWrd);
 userRoute.route("/changePaswrd/:userId").patch(changePassWrd);
 userRoute.route("/updAdmin/:userId").patch(updateAdmin)
 userRoute.route("/delAdmin/:userId").delete(delAdmin)
-userRoute.route("/delAdmin/:userId").get(singleUser)
+userRoute.route("/theadmin/:userId").get(singleUser)
 userRoute.route("/confirm/:userId").post(confirmed);
 userRoute.route("/change/:userId").put(change) 
 

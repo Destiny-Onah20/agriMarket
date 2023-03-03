@@ -1,9 +1,11 @@
 const modelName = require("../models/products");
+const userModel = require("../models/users")
 const cloudinary = require("../helpers/cloudinary");
 
 
 exports.postProduct = async(req,res)=>{
-    try {
+    try {  
+                const userId = req.params.userId
                 const cloudResult = await cloudinary.uploader.upload(req.files.image.tempFilePath);
                 const { productName , decs, price, categories, quantity } = req.body;
                 const data = {
@@ -15,10 +17,15 @@ exports.postProduct = async(req,res)=>{
                     cloudId : cloudResult.public_id,
                     quantity
                 };
-                const createNew = await modelName.create(data)
+                const createNew = new modelName(data)
+                const theUser = await userModel.findById(userId);
+                // createNew.user = theUser;
+                await createNew.save();
+                theUser.products.push(createNew);
+                await theUser.save()
                 res.status(201).json({
+                    message: "Successfully created..",
                     data: createNew
-                    // data: req.user
                 })
     } catch (err) {
         res.status(400).json({
@@ -55,16 +62,34 @@ exports.updtProduct = async(req,res)=>{
     }
 };
 
+// exports.allProducts = async(req,res)=>{
+//     try {
+//         const query = req.query.category ? {categoies : req.query.category} : {};
+//         console.log(query)
+//         const theProduct = await modelName.find(query);
+//         res.status(200).json({
+//             message: `All categories on ${query}`,
+//             length: theProduct.length,
+//             data: theProduct
+//         })
+//     } catch (error) {
+//         res.status(400).json({
+//             message: error.message
+//         })
+//     }
+// };
+
 exports.allProducts = async(req,res)=>{
     try {
         const all = await modelName.find();
         res.status(200).json({
-            message: "All products available " + all.length,
+            message: "All products",
+            length : all.length,
             data: all
         })
     } catch (error) {
         res.status(400).json({
-            message: error.message
+        message: error.message
         })
     }
 };
@@ -126,4 +151,5 @@ exports.categoriesForFishery = async(req,res)=>{
             message: error.message
         })
     }
-}
+};
+

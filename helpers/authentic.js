@@ -38,7 +38,7 @@ const checkUser = async(req,res,next)=>{
 };
 
 
-exports.isSuperAdmin = async(req,res,next)=>{
+exports.isSuperAdmin = async(req,res,next)=>{   
     checkUser(req,res, ()=>{
         if(req.user.superAdmin){
         next()

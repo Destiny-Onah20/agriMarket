@@ -208,7 +208,7 @@ exports.allUser = async(req,res)=>{
 exports.singleUser = async(req,res)=>{
     try {
         const userId = req.params.userId;
-        const single = await modelName.findById(userId);
+        const single = await modelName.findById(userId).populate("products");
         if(single.length === 0){
             res.status(404).json({
                 message: `User with this id: ${userId} not found...`
