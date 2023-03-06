@@ -6,7 +6,7 @@ const cloudinary = require("../helpers/cloudinary");
 exports.postProduct = async(req,res)=>{
     try {  
                 const userId = req.params.userId
-                const cloudResult = await cloudinary.uploader.upload(req.files.image.tempFilePath);
+                const cloudResult = await cloudinary.uploader.upload(req.files.image.tempFilePath,{folder:"products"});
                 const { productName , decs, price, categories, quantity } = req.body;
                 const data = {
                     productName,
@@ -39,7 +39,7 @@ exports.updtProduct = async(req,res)=>{
     try {
         const productId = req.params.productId;
         const product = await modelName.findById(productId);
-        const cloudResult = await cloudinary.uploader.upload(req.files.image.tempFilePath);
+        const cloudResult = await cloudinary.uploader.upload(req.files.image.tempFilePath,{folder:"products"});
         const { productName , decs, price, categories, quantity } = req.body;
         
         const data = {

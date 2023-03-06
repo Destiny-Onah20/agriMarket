@@ -229,7 +229,7 @@ exports.singleUser = async(req,res)=>{
 
 exports.updateAdmin = async(req,res)=>{
     try {
-        const result  = await cloudinary.uploader.upload(req.files.image.tempFilePath)
+        const result  = await cloudinary.uploader.upload(req.files.image.tempFilePath,{folder:"users"})
         const userId = req.params.userId;
         const user = await modelName.findById(userId)
         const {firstName,lastName, email, phoneNumber,location} = req.body;

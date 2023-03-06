@@ -129,7 +129,7 @@ exports.changePasswrd = async(req,res)=>{
 
 exports.updateUser = async(req,res)=>{
     try {
-        const result  = await cloudinary.uploader.upload(req.files.image.tempFilePath)
+        const result  = await cloudinary.uploader.upload(req.files.image.tempFilePath,{folder:"users"})
         const userId = req.params.userId;
         const user = await modelName.findById(userId)
         const {firstName,lastName, email, phoneNumber,location} = req.body;
