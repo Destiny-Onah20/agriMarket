@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
         require: [true, "This place cannot be empty"]
     },
      price: {
-        type: String,
+        type: Number,
         require: [true, "This place cannot be empty"],
     },
     categories: {
